@@ -56,9 +56,8 @@ function Register() {
     
     save("users", [...users, CurrentUserData]);
     save("logUser", CurrentUserData);
-    userData.setUser(CurrentUserData)
+    userData().setUser(CurrentUserData)
     navigate("/");
-
     reset();
   }
 

@@ -5,9 +5,7 @@ import { AuthProvider } from '../context/AuthContext'
 const AuthLayout = () => {
   return (
     <div>
-      <AuthProvider>
         <Outlet />
-      </AuthProvider>
     </div>
   )
 }

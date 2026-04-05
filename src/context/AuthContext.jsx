@@ -3,18 +3,18 @@ import { useContext } from "react";
 
 let AuthContext = createContext();
 
-export const AuthProvider = () => {
+export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState({});
 
-    const items = () => {
-        return {
-            user,
-            setUser
-        }
+    const items = {
+        user,
+        setUser
     }
 
-    return <AuthContext.Provider value={items()} />
+    return <AuthContext.Provider value={items}>
+        {children}
+    </AuthContext.Provider>
 }
 
-export const userData = useContext(AuthContext);
+export const userData = () => useContext(AuthContext);

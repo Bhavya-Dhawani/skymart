@@ -8,10 +8,10 @@ const MainProtect = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-
-        if (user.name != undefined) {
+        console.log(user)
+        if (user.name == undefined) {
             showErrorToast("Please Login first");
-            navigate("/");
+            navigate("/login");
             return;
         }
     }, [])

@@ -14,17 +14,19 @@ function Login() {
 
   const { register, handleSubmit, reset } = useForm();
 
-  let navigate = useNavigate("/");
+  let navigate = useNavigate();
+
+  const { setUser } = userData();
 
   const submitHandler = (data) => {
 
     let users = load("users");
     for (let i = 0; i < users.length; i++) {
-      if (users.email == data.email && users[i].password == data.password) {
+      if (users[i].email == data.email && users[i].password == data.password) {
         showSuccessToast("user logged in SuccessFully");
         save("logUser", users[i]);
-        userData.setUser(users[i]);
-        navigate("/")
+        setUser(users[i]);
+        navigate("/");
         return;
       }
     }
