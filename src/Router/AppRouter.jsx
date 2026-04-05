@@ -7,6 +7,10 @@ import Register from '../pages/Register';
 import AuthProtectors from '../protectors/AuthProtectors';
 import MainProtect from '../protectors/MainProtect';
 import Home from '../pages/Home';
+import Redirect from '../pages/Redirect';
+import About from '../pages/About';
+import Shop from '../pages/Shop';
+import Product from '../pages/Product';
 
 const AppRouter = () => {
 
@@ -23,7 +27,23 @@ const AppRouter = () => {
                             children: [
                                 {
                                     path: "",
+                                    element: <Redirect />
+                                },
+                                {
+                                    path: "home",
                                     element: <Home />
+                                },
+                                {
+                                    path: "about",
+                                    element: <About />
+                                },
+                                {
+                                    path: "products",
+                                    element: <Shop />
+                                },
+                                {
+                                    path: "product/:id",
+                                    element: <Product />
                                 }
                             ]
                         }

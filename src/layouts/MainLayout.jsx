@@ -1,11 +1,16 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { AuthProvider } from '../context/AuthContext';
+import Navbar from '../Components/Navbar';
+import Footer from '../Components/Footer';
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-[#0d0d0d] text-white">
+      <Navbar />
+      <main>
         <Outlet />
+      </main>
+      <Footer />
     </div>
   )
 }

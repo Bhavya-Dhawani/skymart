@@ -17,7 +17,7 @@
   color: #f5f5f5;
   background: #0d0d0d;
   --color-volt: #d2ff00;
-  --color-volt-soft: #c4f000;
+  --color-volt-soft: #b2d80b;
   --color-volt-light: #e0ff4d;
   --color-ink: #0d0d0d;
   --color-panel: #111111;
@@ -100,8 +100,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 20px;
-    padding: 14px 0;
+    border-radius: 999px;
+    padding: 12px 22px;
     font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
@@ -109,11 +109,118 @@ body {
     color: var(--color-ink);
     border: none;
     cursor: pointer;
-    transition: background-color 0.15s;
+    /* box-shadow: 0 10px 24px rgba(210, 255, 0, 0.18); */
+    transition: background-color 0.3s, transform 0.15s, box-shadow 0.15s;
   }
 
   .btn-volt:hover {
     background: var(--color-volt-soft);
+    /* transform: translateY(-1px); */
+    /* box-shadow: 0 12px 28px rgba(210, 255, 0, 0.24); */
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 20px;
+    padding: 12px 16px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-link {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.15s;
+  }
+
+  .nav-link:hover {
+    color: #fff;
+  }
+
+  .nav-link--active {
+    color: var(--color-volt);
+  }
+
+  /* Support NavLink's default 'active' class */
+  .nav-link.active {
+    color: var(--color-volt);
+  }
+
+  .text-volt {
+    color: var(--color-volt);
+  }
+
+  .bg-volt {
+    background: var(--color-volt);
+  }
+
+  .clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .text-volt-soft {
+    color: rgba(210, 255, 0, 0.7);
+  }
+
+  .bg-volt-10 {
+    background: rgba(210, 255, 0, 0.1);
+  }
+
+  .bg-volt-08 {
+    background: rgba(210, 255, 0, 0.08);
+  }
+
+  .bg-volt-05 {
+    background: rgba(210, 255, 0, 0.05);
+  }
+
+  .bg-volt-04 {
+    background: rgba(210, 255, 0, 0.04);
+  }
+
+  .border-volt-20 {
+    border-color: rgba(210, 255, 0, 0.2);
+  }
+
+  .border-volt-30 {
+    border-color: rgba(210, 255, 0, 0.3);
+  }
+
+  .text-ink {
+    color: var(--color-ink);
+  }
+
+  .nav-btn {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: #fff;
+    transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
   }
 
   .app-toast {

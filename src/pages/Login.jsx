@@ -42,8 +42,8 @@ function Login() {
   return (
     <div className="min-h-screen bg-ink flex">
       <div className="hidden lg:flex flex-col w-1/2 bg-[#111] border-r border-white/80 p-12 relative overflow-hidden">
-        <div className="absolute top-1/4 -left-20 w-64 h-64 bg-volt/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-volt/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/4 -left-20 w-64 h-64 bg-volt-10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-volt-05 rounded-full blur-3xl pointer-events-none"></div>
         <Brand />
         <HeroPanel />
       </div>
