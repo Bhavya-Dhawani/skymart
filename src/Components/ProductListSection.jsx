@@ -1,5 +1,6 @@
 import React from 'react'
 import { useProductData } from '../context/ProductContext'
+import { NavLink } from 'react-router'
 
 function ProductRow({ product }) {
   const { addToCart } = useProductData()
@@ -39,9 +40,9 @@ const ProductListSection = ({ title, iconClass, ctaHref = '/products', products 
         <h2 className="font-heading font-bold text-lg flex items-center gap-2 text-white">
           <i className={`${iconClass} text-base`}></i> {title}
         </h2>
-        <a className="text-volt text-xs hover:text-volt-light flex items-center gap-1" href={ctaHref}>
+        <NavLink className="text-volt text-xs hover:text-volt-light flex items-center gap-1" href={ctaHref}>
           See all <i className="ri-arrow-right-line text-[11px]"></i>
-        </a>
+        </NavLink>
       </div>
 
       <div className="space-y-2">

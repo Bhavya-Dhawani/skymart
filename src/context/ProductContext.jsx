@@ -2,6 +2,7 @@ import { Children, createContext, useContext, useEffect, useState } from "react"
 import axiosInstance from "../instance/axiosInstance";
 import { useUserData } from "./AuthContext";
 import { load, save } from "../lib/locaStorage";
+import { showSuccessToast } from "../lib/toast";
 
 const ProductContext = createContext();
 
@@ -72,6 +73,7 @@ export const ProductsProvider = ({ children }) => {
                 }
                 return [...prev, { ...item, quantity: 1 }];
             });
+            showSuccessToast("Added to cart");
             setIsCartOpen(true);
         },
         updateQuantity: (id, delta) => {

@@ -4,6 +4,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import { useProductData, ProductsProvider } from '../context/ProductContext';
 import { AuthProvider } from '../context/AuthContext';
+import { showSuccessToast } from '../lib/toast';
 
 const MainLayout = () => {
 
@@ -13,6 +14,12 @@ const MainLayout = () => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
   useEffect(() => { }, [])
+
+  const handleCheckout = () => {
+    clearCart();
+    toggleCart(false);
+    showSuccessToast('Order placed');
+  }
 
   return (
     
@@ -98,7 +105,10 @@ const MainLayout = () => {
                   <span className="text-white/50 text-sm font-body">Total</span>
                   <span className="font-heading font-bold text-2xl text-white">${total}</span>
                 </div>
-                <button className="w-full btn-volt flex items-center justify-center gap-2 py-3.5 text-base font-heading font-bold">
+                <button 
+                  className="w-full btn-volt flex items-center justify-center gap-2 py-3.5 text-base font-heading font-bold"
+                  onClick={handleCheckout}
+                >
                   Checkout <i className="ri-arrow-right-line text-base"></i>
                 </button>
                 <button

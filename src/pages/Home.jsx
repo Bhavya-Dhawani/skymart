@@ -104,7 +104,12 @@ const Home = () => {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-        <ProductListSection title="Top Rated" iconClass="ri-star-line" products={getRandomItems(products, 5)} />
+        <ProductListSection
+          title="Top Rated"
+          iconClass="ri-star-line"
+          products={getRandomItems(products, 5)}
+          ctaHref="/products?sort=rating-desc"
+        />
         <ProductListSection
           title="New Arrivals"
           iconClass="ri-flashlight-line"

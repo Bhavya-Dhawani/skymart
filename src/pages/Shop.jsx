@@ -30,6 +30,9 @@ const Shop = () => {
     const queryCat =
       (searchParams.get("category") || searchParams.get("catagory") || "").toLowerCase();
     if (queryCat) setCategory(queryCat);
+
+    const querySort = (searchParams.get("sort") || "").toLowerCase();
+    if (querySort) setSort(querySort);
   }, [searchParams]);
 
   useEffect(() => {
@@ -109,6 +112,15 @@ const Shop = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {search && (
+              <button
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60"
+                onClick={() => setSearch("")}
+                aria-label="Clear search"
+              >
+                <i className="ri-close-line text-sm"></i>
+              </button>
+            )}
           </div>
 
           <div className="relative min-w-37.5">
@@ -181,18 +193,35 @@ const Shop = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {loading
-          ? [...Array(10)].map((_, idx) => (
-              <div
-                key={idx}
-                className="h-64 bg-white/5 border border-white/10 rounded-2xl animate-pulse"
-              />
-            ))
-          : filtered.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-      </section>
+      {loading ? (
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {[...Array(10)].map((_, idx) => (
+            <div
+              key={idx}
+              className="h-64 bg-white/5 border border-white/10 rounded-2xl animate-pulse"
+            />
+          ))}
+        </section>
+      ) : filtered.length === 0 ? (
+        <div className="flex flex-col items-center py-24 gap-4 text-center">
+          <i className="ri-shopping-bag-3-line text-5xl text-white/15"></i>
+          <div>
+            <p className="font-heading font-bold text-xl text-white/60">No products found</p>
+            {search || category !== "all" || sort !== "featured" ? (
+              <p className="text-white/30 text-sm mt-1">No results for your current filters</p>
+            ) : null}
+          </div>
+          <button className="btn-ghost mt-2" onClick={clearFilters}>
+            Clear Filters
+          </button>
+        </div>
+      ) : (
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {filtered.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </section>
+      )}
     </div>
   );
 };
