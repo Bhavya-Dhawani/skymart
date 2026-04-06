@@ -1,3 +1,5 @@
+import { userData } from "../context/AuthContext"
+
 const badges = [
   { title: '20+', subtitle: 'Products Available', accent: 'volt' },
   { title: 'Free', subtitle: 'Delivery on ₹999+', accent: 'glass' },
@@ -12,9 +14,8 @@ function StatBadge({ title, subtitle, accent }) {
   return (
     <div className={`rounded-2xl px-6 py-4 text-center border ${accentClasses}`}>
       <p
-        className={`font-heading font-bold ${
-          accent === 'volt' ? 'text-4xl' : 'text-2xl'
-        }`}
+        className={`font-heading font-bold ${accent === 'volt' ? 'text-4xl' : 'text-2xl'
+          }`}
       >
         {title}
       </p>
@@ -24,6 +25,9 @@ function StatBadge({ title, subtitle, accent }) {
 }
 
 const Hero = () => {
+
+  const { user } = userData();
+
   return (
     <section className="relative overflow-hidden rounded-3xl bg-[#111] border border-white/80 p-8 sm:p-12 mb-10">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -45,7 +49,7 @@ const Hero = () => {
           <h1 className="font-heading font-bold text-4xl sm:text-5xl text-white leading-tight mb-4">
             Welcome back,
             <br />
-            <span className="text-volt">Bhavya!</span>
+            <span className="text-volt">{user?.name?.split(" ")[0]}!</span>
           </h1>
           <p className="text-white/40 font-body max-w-md">
             Discover today&apos;s picks — hand-curated products across electronics,

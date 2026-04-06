@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router'
+import { Link, NavLink, useNavigate } from 'react-router'
+import { userData } from '../context/AuthContext';
+import { productData } from '../context/ProductContext';
 
 const navItems = [
   { label: 'Home', to: '/home' },
@@ -11,6 +13,14 @@ function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = userData();
+  const { cart, toggleCart } = productData();
+  const navigate = useNavigate();
+
+  const logoutUser = () => {
+    logout();
+    navigate("/login");
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,17 +67,25 @@ function Navbar() {
               B
             </div>
             <span className="text-sm text-white/70 font-body max-w-25 truncate">
-              Bhavya Dhanwani
+              {user?.name?.length > 11 ? `${user.name.slice(0, 8)}...` : user.name}
             </span>
           </div>
 
-          <button className="relative p-2.5 aspect-square hover:bg-white/12 border border-white/10 rounded-xl transition-all">
+          <button
+            className="relative p-2.5 aspect-square hover:bg-white/12 border border-white/10 rounded-xl transition-all"
+            onClick={() => toggleCart(true)}
+          >
             <i className="ri-shopping-cart-line text-lg"></i>
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-volt text-ink text-[10px] font-bold rounded-full px-1.5 py-0.5">
+                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
+            )}
           </button>
 
           <button
             title="Logout"
-            className="p-2.5 aspect-square hover:bg-red-500/20 hover:border-red-500/30 border border-white/10 rounded-xl transition-all text-white/60 hover:text-red-400"
+            className="p-2.5 aspect-square hover:bg-red-500/20 hover:border-red-500/30 border border-white/10 rounded-xl transition-all text-white/60 hover:text-red-400" onClick={logoutUser}
           >
             <i className="ri-logout-box-r-line text-base"></i>
           </button>
@@ -101,7 +119,7 @@ function Navbar() {
             </NavLink>
           ))}
 
-          <button className="flex items-center gap-2 text-red-400 text-sm mt-2">
+          <button className="flex items-center gap-2 text-red-400 text-sm mt-2" onClick={logoutUser}>
             <i className="ri-logout-box-r-line text-sm"></i>
             Logout
           </button>

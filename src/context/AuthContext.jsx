@@ -1,15 +1,21 @@
 import { createContext, useState } from "react";
 import { useContext } from "react";
+import { load, remove } from "../lib/locaStorage";
 
 let AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(load("logUser"));
+
+    const logout = () => {
+        remove("logUser");
+    }
 
     const items = {
         user,
-        setUser
+        setUser,
+        logout
     }
 
     return <AuthContext.Provider value={items}>
