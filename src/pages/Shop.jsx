@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { productData } from "../context/ProductContext";
+import { useSearchParams } from "react-router";
+import { useProductData } from "../context/ProductContext";
 import ProductCard from "../Components/ProductCard";
 
 const StarRow = ({ rating }) => {
@@ -17,11 +18,19 @@ const StarRow = ({ rating }) => {
 };
 
 const Shop = () => {
-  const { products } = productData();
+  const { products } = useProductData();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState("featured");
   const [loading, setLoading] = useState(true);
+
+  // Sync category from query string (?category=... or ?catagory=...)
+  useEffect(() => {
+    const queryCat =
+      (searchParams.get("category") || searchParams.get("catagory") || "").toLowerCase();
+    if (queryCat) setCategory(queryCat);
+  }, [searchParams]);
 
   useEffect(() => {
     if (products && products.length) {

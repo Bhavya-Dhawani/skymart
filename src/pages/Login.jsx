@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { load, save } from '../lib/locaStorage';
 import { showErrorToast, showSuccessToast } from '../lib/toast';
-import { userData } from '../context/AuthContext';
+import { useUserData } from '../context/AuthContext';
 
 function Login() {
 
@@ -16,7 +16,7 @@ function Login() {
 
   let navigate = useNavigate();
 
-  const { setUser } = userData();
+  const { setUser } = useUserData();
 
   const submitHandler = (data) => {
 

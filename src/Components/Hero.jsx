@@ -1,4 +1,4 @@
-import { userData } from "../context/AuthContext"
+import { useUserData } from "../context/AuthContext"
 
 const badges = [
   { title: '20+', subtitle: 'Products Available', accent: 'volt' },
@@ -26,7 +26,7 @@ function StatBadge({ title, subtitle, accent }) {
 
 const Hero = () => {
 
-  const { user } = userData();
+  const { user } = useUserData();
 
   return (
     <section className="relative overflow-hidden rounded-3xl bg-[#111] border border-white/80 p-8 sm:p-12 mb-10">

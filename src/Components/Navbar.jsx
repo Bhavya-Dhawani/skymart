@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router'
-import { userData } from '../context/AuthContext';
-import { productData } from '../context/ProductContext';
+import { useUserData } from '../context/AuthContext';
+import { useProductData } from '../context/ProductContext';
 
 const navItems = [
   { label: 'Home', to: '/home' },
@@ -13,8 +13,8 @@ function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, logout } = userData();
-  const { cart, toggleCart } = productData();
+  const { user, logout } = useUserData();
+  const { cart, toggleCart } = useProductData();
   const navigate = useNavigate();
 
   const logoutUser = () => {

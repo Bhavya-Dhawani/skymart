@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router"
-import { productData } from "../context/ProductContext";
+import { useProductData } from "../context/ProductContext";
 
 const StarRow = ({ rating }) => {
   const full = Math.round(rating)
@@ -18,7 +18,7 @@ const StarRow = ({ rating }) => {
 const ProductCard = ({ product }) => {
 
   const navigate = useNavigate();
-  const { addToCart, cart } = productData();
+  const { addToCart, cart } = useProductData();
 
   const handleNavigate = () => {
     navigate(`/product/${product.id}`)

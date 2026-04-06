@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router'
+import React, { useEffect, useState } from 'react'
+import { NavLink, useParams } from 'react-router'
 import ProductCard from '../Components/ProductCard'
-import axiosInstance from '../instance/axiosInstance'
-import { productData } from '../context/ProductContext'
+import { useProductData } from '../context/ProductContext'
 import axios from 'axios'
 
 const Breadcrumbs = ({ category, name }) => (
@@ -48,7 +47,12 @@ const FeaturePill = ({ icon, title, desc }) => (
   </div>
 )
 
-const ProductSummary = ({ product }) => (
+const ProductSummary = ({ product, toggleFavorite, isFavorite, addToCart, isInCart, productId }) => {
+  const pid = Number(productId) || 0
+  const showPrev = pid !== 78
+  const showNext = pid !== 107
+
+  return (
   <div className="flex flex-col gap-5 animate-fade-up">
     <span className="badge bg-volt/10 text-volt border border-volt/20 capitalize w-fit text-xs px-3 py-1 rounded-full">
       {product?.category}
@@ -60,12 +64,39 @@ const ProductSummary = ({ product }) => (
     </div>
     <p className="text-white/50 font-body text-sm leading-relaxed">{product?.description}</p>
     <div className="flex gap-3">
-      <button className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-heading font-bold text-base transition-all duration-200 active:scale-95 bg-volt text-ink hover:bg-volt-light border border-volt">
-        <i className="ri-shopping-cart-line text-lg"></i>
-        Add to Cart
-      </button>
-      <button className="p-3.5 border rounded-2xl transition-all border-white/10 text-white/40 hover:text-rose-400 hover:border-rose-400/30">
-        <i className="ri-heart-line text-lg"></i>
+      {isInCart(product?.id) ? (
+        <button className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-heading font-bold text-base transition-all duration-200 active:scale-95 bg-green-500/15 text-green-400 border border-green-500/25 hover:bg-green-500/25">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check">
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          Added to Cart
+        </button>
+      ) : (
+        <button 
+          onClick={() => addToCart(product)}
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-heading font-bold text-base transition-all duration-200 active:scale-95 bg-volt text-ink hover:bg-volt-light border border-volt"
+        >
+          <i className="ri-shopping-cart-line text-lg"></i>
+          Add to Cart
+        </button>
+      )}
+      <button 
+        onClick={() => toggleFavorite(product)}
+        className={`p-3.5 border rounded-2xl transition-all ${
+          isFavorite(product?.id) 
+            ? 'bg-red-500/15 border-red-500/30 text-red-400' 
+            : 'border-white/10 text-white/40 hover:text-rose-400 hover:border-rose-400/30'
+        }`}
+      >
+        {isFavorite(product?.id) ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart fill-red-400">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+        )}
       </button>
     </div>
     <div className="grid grid-cols-3 gap-3 mt-1">
@@ -73,16 +104,32 @@ const ProductSummary = ({ product }) => (
       <FeaturePill icon="shield-check-line" title="Secure Pay" desc="256-bit SSL" />
       <FeaturePill icon="refund-2-line" title="Easy Returns" desc="30-day policy" />
     </div>
-    <div className="flex gap-3 mt-4">
-      <a
-        className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-volt hover:bg-volt-light text-ink border border-volt rounded-2xl transition-all font-heading font-semibold text-sm"
-        href="/products/2"
-      >
-        Next <i className="ri-arrow-right-s-line text-lg"></i>
-      </a>
+    <div className="flex gap-3 mt-6">
+      {showPrev && (
+        <NavLink 
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/10 hover:bg-white/15 border border-white/10 rounded-2xl transition-all text-white text-sm font-body" 
+          to={`/product/${Math.max(1, pid - 1)}`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-left">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+          Previous
+        </NavLink>
+      )}
+      {showNext && (
+        <NavLink 
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-volt hover:bg-volt-light text-ink border border-volt rounded-2xl transition-all font-heading font-semibold text-sm" 
+          to={`/product/${pid + 1}`}
+        >
+          Next 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </NavLink>
+      )}
     </div>
   </div>
-)
+)}
 
 const RelatedProducts = ({ products }) => (
   <section className="mt-16">
@@ -100,7 +147,7 @@ const Product = () => {
   const [singleProduct, setSingleProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const { products } = productData();
+  const { products, toggleFavorite, isFavorite, addToCart, isInCart } = useProductData();
   console.log(singleProduct)
 
   useEffect(() => {
@@ -122,7 +169,13 @@ const Product = () => {
   }, [id, products])
 
 
-  const related = (products || []).filter((item) => item?.id !== singleProduct?.id).slice(0, 5)
+  const related = (products || [])
+    .filter(
+      (item) =>
+        item?.id !== singleProduct?.id &&
+        item?.category === singleProduct?.category
+    )
+    .slice(0, 5)
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -148,7 +201,14 @@ const Product = () => {
             <div className="h-12 w-full bg-white/10 rounded animate-pulse" />
           </div>
         ) : (
-          <ProductSummary product={singleProduct} />
+          <ProductSummary 
+            product={singleProduct} 
+            toggleFavorite={toggleFavorite} 
+            isFavorite={isFavorite}
+            addToCart={addToCart}
+            isInCart={isInCart}
+            productId={id}
+          />
         )}
       </div>
 

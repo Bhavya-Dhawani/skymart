@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { showErrorToast } from '../lib/toast';
 import { load, save } from "../lib/locaStorage";
-import { userData } from '../context/AuthContext';
+import { useUserData } from '../context/AuthContext';
 
 function Register() {
 
@@ -21,6 +21,8 @@ function Register() {
   const { register, handleSubmit, reset, watch } = useForm({
     mode: 'onChange'
   });
+
+  const { setUser } = useUserData();
 
   const sanitizeUser = ({ name, email, password }) => {
     return {
@@ -48,7 +50,7 @@ function Register() {
     let users = load("users");
 
     for (let i = 0; i < users.length; i++) {
-      if (users[i].email == userData.email) {
+      if (users[i].email == CurrentUserData.email) {
         showErrorToast("User Already exits");
         return;
       }
@@ -56,7 +58,7 @@ function Register() {
     
     save("users", [...users, CurrentUserData]);
     save("logUser", CurrentUserData);
-    userData().setUser(CurrentUserData)
+    setUser(CurrentUserData)
     navigate("/");
     reset();
   }

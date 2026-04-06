@@ -1,8 +1,19 @@
+import React from 'react'
+import { useProductData } from '../context/ProductContext'
+
 function ProductRow({ product }) {
+  const { addToCart } = useProductData()
+
+  const handleAdd = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    addToCart(product)
+  }
+
   return (
     <a
       className="group flex items-center gap-3 p-3 bg-white/3 hover:bg-white/8 border border-white/10 hover:border-volt-30 rounded-2xl transition-all duration-200 hover:shadow-[0_12px_26px_rgba(0,0,0,0.18)]"
-      href={`/products/${product.id}`}
+      href={`/product/${product.id}`}
     >
       <div className="w-12 h-12 bg-white/95 rounded-xl flex items-center justify-center shrink-0 p-1.5 border border-white/30">
         <img src={product.images[0]} alt={product.title} className="w-full h-full object-contain" />
@@ -11,7 +22,10 @@ function ProductRow({ product }) {
         <p className="text-white/80 text-xs font-body clamp-1">{product.title}</p>
         <p className="text-volt font-heading font-bold text-sm mt-0.5">${product.price}</p>
       </div>
-      <button className="shrink-0 w-7 h-7 bg-volt-10 hover:bg-volt text-volt hover:text-ink rounded-lg flex items-center justify-center transition-all">
+      <button
+        className="shrink-0 w-7 h-7 bg-volt-10 hover:bg-volt text-volt hover:text-ink rounded-lg flex items-center justify-center transition-all"
+        onClick={handleAdd}
+      >
         <i className="ri-shopping-bag-line text-sm"></i>
       </button>
     </a>

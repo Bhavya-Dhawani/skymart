@@ -1,6 +1,6 @@
 import { Children, createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../instance/axiosInstance";
-import { userData } from "./AuthContext";
+import { useUserData } from "./AuthContext";
 import { load, save } from "../lib/locaStorage";
 
 const ProductContext = createContext();
@@ -11,12 +11,13 @@ export const ProductsProvider = ({ children }) => {
     const [catagoryBifercation, setCatagoryBifercation] = useState({});
     const [cart, setCart] = useState([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const { user } = userData();
+    const [favorites, setFavorites] = useState([]);
+    const { user } = useUserData();
     const userKey = user?.id || user?.email || "guest";
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const res = await axiosInstance.get("/products");
+            const res = await axiosInstance.get("/products?limit=30&skip=77");
             setProducts(res.products);
             let catagoryData = getCatagories(res.products);
             setCatagoryBifercation(catagoryData);
@@ -40,15 +41,27 @@ export const ProductsProvider = ({ children }) => {
     }, [userKey]);
 
     useEffect(() => {
+        // load favorites for current user
+        const storedFavorites = load(`favorites_${userKey}`) || [];
+        setFavorites(storedFavorites);
+    }, [userKey]);
+
+    useEffect(() => {
         // persist cart for user
         save(`cart_${userKey}`, cart);
     }, [cart, userKey]);
+
+    useEffect(() => {
+        // persist favorites for user
+        save(`favorites_${userKey}`, favorites);
+    }, [favorites, userKey]);
 
     const items = {
         products,
         catagoryBifercation,
         cart,
         isCartOpen,
+        favorites,
         addToCart: (item) => {
             setCart((prev) => {
                 const exists = prev.find((p) => p.id === item.id);
@@ -77,6 +90,17 @@ export const ProductsProvider = ({ children }) => {
         toggleCart: (state) => setIsCartOpen((prev) => (typeof state === "boolean" ? state : !prev)),
         getCartCount: () => cart.reduce((sum, item) => sum + item.quantity, 0),
         getCartTotal: () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+        toggleFavorite: (item) => {
+            setFavorites((prev) => {
+                const exists = prev.find((p) => p.id === item.id);
+                if (exists) {
+                    return prev.filter((p) => p.id !== item.id);
+                }
+                return [...prev, item];
+            });
+        },
+        isFavorite: (id) => favorites.some((item) => item.id === id),
+        isInCart: (id) => cart.some((item) => item.id === id),
     }
 
     return <ProductContext.Provider value={items}>
@@ -84,4 +108,4 @@ export const ProductsProvider = ({ children }) => {
     </ProductContext.Provider>
 }
 
-export const productData = () => useContext(ProductContext);
+export const useProductData = () => useContext(ProductContext);

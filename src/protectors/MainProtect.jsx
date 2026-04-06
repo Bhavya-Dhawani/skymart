@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { load } from '../lib/locaStorage';
 import { Outlet, useNavigate } from 'react-router';
 import { showErrorToast } from '../lib/toast';
-import { AuthProvider, userData } from '../context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 import { ProductsProvider } from '../context/ProductContext';
 
 const MainProtect = () => {

@@ -3,7 +3,7 @@ import DashboardStatCard from '../Components/DashboardStatCard'
 import CategoryCard from '../Components/CategoryCard'
 import ProductListSection from '../Components/ProductListSection'
 import FeatureCard from '../Components/FeatureCard'
-import { productData } from '../context/ProductContext'
+import { useProductData } from '../context/ProductContext'
 
 
 const features = [
@@ -29,7 +29,7 @@ const features = [
 
 const Home = () => {
 
-  const { catagoryBifercation, products, getCartCount, getCartTotal } = productData();
+  const { catagoryBifercation, products, getCartCount, getCartTotal } = useProductData();
 
   const statCards = [
     {
@@ -117,7 +117,6 @@ const Home = () => {
           <FeatureCard key={feature.title} {...feature} />
         ))}
       </div>
-      Home
     </div>
   )
 }

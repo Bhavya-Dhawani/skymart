@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Outlet, Link } from 'react-router';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-import { productData, ProductsProvider } from '../context/ProductContext';
+import { useProductData, ProductsProvider } from '../context/ProductContext';
 import { AuthProvider } from '../context/AuthContext';
 
 const MainLayout = () => {
 
-  const { cart, isCartOpen, toggleCart, updateQuantity, removeFromCart, clearCart } = productData();
+  const { cart, isCartOpen, toggleCart, updateQuantity, removeFromCart, clearCart } = useProductData();
 
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
@@ -15,6 +15,7 @@ const MainLayout = () => {
   useEffect(() => { }, [])
 
   return (
+    
     <div className="min-h-screen bg-ink text-white">
       <Navbar />
       <main>
